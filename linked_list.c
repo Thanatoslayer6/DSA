@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 typedef struct Node
 {
@@ -8,24 +9,59 @@ typedef struct Node
 } Node;
 
 // Add a node to the end of the list
-void add(Node *head, int data)
+void add_node(Node **head, int data, bool to_front)
 {
-    Node *item = malloc(sizeof(Node));
+    Node *item = (Node*)malloc(sizeof(Node));
     item->data = data;
     item->next = NULL;
-    if (head == NULL)
-    { // Means the list is empty
-        head = item;
+
+    if (*head == NULL) {  // If the list is empty
+        *head = item;
+        return;
     }
-    else
-    { // Traverse at the end of the list
-        Node *iterator = head;
-        while (iterator->next != NULL)
-        {
-            iterator = iterator->next;
-        }
-        iterator = item;
+
+    if (to_front) { // Add the node to the front O(1)
+        item->next = *head;
+        *head = item;
+        return;
     }
+
+    Node *iterator = *head; // Add the node to the back
+    while (iterator->next != NULL)
+    {
+        iterator = iterator->next;
+    }
+    iterator->next = item;
+}
+
+void remove_node(Node **head, int index) {
+    if (index < 0) return;
+    // If the user wants to remove the first item in the list/front
+    if (index == 0) {
+        Node *node_to_remove = *head;
+        *head = (*head)->next;
+        free(node_to_remove);
+        node_to_remove = NULL;
+        return;
+    }
+
+    // If it's not the last element
+    int count = 0;
+    Node *iterator = *head;
+    while (count != index - 1) {
+        iterator = iterator->next;
+        count++;
+    }
+
+    // Save the element to remove
+    Node *node_to_remove = iterator->next;
+
+    // Connect current iterator 2 nodes ahead
+    iterator->next = iterator->next->next;
+
+    node_to_remove->next = NULL;
+    free(node_to_remove);
+    node_to_remove = NULL;
 }
 
 void printList(Node *head)
@@ -38,30 +74,14 @@ void printList(Node *head)
     }
 }
 
-// Create head
-
 int main()
 {
     Node *head = NULL;
-    add(head, 2);
-    printf("Hello");
-    // add(head, 5);
-    // add(head, 2);
-    // Traverse the linked list
-    // printList(head);
+    add_node(&head, 2, false);
+    add_node(&head, 3, false);
+    add_node(&head, 4, false);
+    add_node(&head, 5, false);
 
-    /*
-    Node *item1 = malloc(sizeof(Node));
-    item1->data = 5;
-    item1->next = NULL;
-    head = item1;
+    remove_node(&head, 2);
 
-    Node *item2 = malloc(sizeof(Node));
-    item2->data = 2;
-    item2->next = NULL;
-    item1->next = item2;
-
-    free(item1);
-    free(item2);
-    */
 }
