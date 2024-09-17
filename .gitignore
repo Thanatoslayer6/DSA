@@ -4,3 +4,5 @@ linked_list
 main
 .vscode
 *.class
+*.bat
+*.BAT
