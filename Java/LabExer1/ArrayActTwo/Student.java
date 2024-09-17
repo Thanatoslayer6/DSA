@@ -18,13 +18,14 @@ class Student {
     }
 
     public void displayInfo() {
-        System.out.println("Name: " + name);
-        System.out.println("Number: " + number);
-        System.out.println("Calculus Grade: " + calculusGrade);
-        System.out.println("Programming Grade: " + programmingGrade);
-        System.out.println("Logic Grade: " + logicGrade);
-        System.out.println("Average Grade: " + averageGrade);
-        System.out.println();
+		System.out.println("\n\t==== INDIVIDUAL STUDENT INFORMATION ====");
+        System.out.println("\t Name: " + name);
+        System.out.println("\t Number: " + number);
+        System.out.println("\t Calculus Grade: " + calculusGrade);
+        System.out.println("\t Programming Grade: " + programmingGrade);
+        System.out.println("\t Logic Grade: " + logicGrade);
+        System.out.println("\t Average Grade: " + averageGrade);
+        System.out.println("\t==========================================");
     }
 
     public static void displayAllStudentInfo(ArrayList<Student> students) {
@@ -33,7 +34,7 @@ class Student {
         System.out.println("+============+================+============+===============+=========+=========+");
         System.out.println("|    Name    |   Student No.  |  Calculus  |  Programming  |  Logic  | Average |");
         System.out.println("+============+================+============+===============+=========+=========+");
-        // Loop over the students array 
+        // Loop over the students array
         for (Student student : students) {
             System.out.printf("|   %-9s", student.name); // Name
             System.out.printf("|   %-13s", student.number); // Student no.
@@ -44,5 +45,5 @@ class Student {
             System.out.println("+============+================+============+===============+=========+=========+");
         }
     }
-    
+
 }

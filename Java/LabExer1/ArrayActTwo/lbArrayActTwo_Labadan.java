@@ -12,7 +12,7 @@ public class lbArrayActTwo_Labadan {
     public static void main(String args[]) {
 
         // Add 5 students in the list, instantiate the Student class
-        myStudents.add(new Student("Rico", "2023-106521", 90.5, 95.0, 98.0)); 
+        myStudents.add(new Student("Rico", "2023-106521", 90.5, 95.0, 98.0));
         myStudents.add(new Student("Brent", "2020-102345", 99.5, 90.5, 98.0));
         myStudents.add(new Student("Charlie", "2019-102452", 92.0, 91.5, 89.0));
         myStudents.add(new Student("Diana", "2018-200311", 85.0, 88.0, 91.0));
@@ -43,7 +43,6 @@ public class lbArrayActTwo_Labadan {
             } else if (option == 4) {
                 Student.displayAllStudentInfo(myStudents);
             } else if (option == 5) {
-                System.out.println("\tExiting program...");
                 break;
             }
         } while (option >= 1 && option <= 6);
@@ -51,39 +50,41 @@ public class lbArrayActTwo_Labadan {
 
     public static void addStudent() {
         scan.nextLine();
-        System.out.print("\tEnter the name of the student: ");
+        System.out.print("\t- Enter the name of the student: ");
         String name = scan.nextLine();
-        System.out.print("\tEnter the student number: ");
+        System.out.print("\t- Enter the student number: ");
         String number = scan.nextLine();
-        System.out.print("\tEnter the student's grade in Calculus: ");
+        System.out.print("\t- Enter the student's grade in Calculus: ");
         double calculusGrade = scan.nextDouble();
-        System.out.print("\tEnter the student's grade in Programming: ");
+        System.out.print("\t- Enter the student's grade in Programming: ");
         double programmingGrade = scan.nextDouble();
-        System.out.print("\tEnter the student's grade in Logic: ");
+        System.out.print("\t- Enter the student's grade in Logic: ");
         double logicGrade = scan.nextDouble();
         myStudents.add(new Student(name, number, calculusGrade, programmingGrade, logicGrade));
     }
 
     public static void removeStudent() {
-        System.out.print("\tEnter the student number for removal: ");
+        System.out.print("\t- Enter the student number for removal: ");
+        scan.nextLine();
         String studentNumber = scan.nextLine();
         // We use the Iterator class to safely remove the student from the list
         Iterator<Student> iterator = myStudents.iterator();
         while (iterator.hasNext()) {
-            Student student = iterator.next(); 
+            Student student = iterator.next();
             if (student.number.equalsIgnoreCase(studentNumber)) {
                 iterator.remove();
-                System.out.printf("\t%s - %s, has been removed from the list.", student.name, student.number);
+                System.out.printf("\t%s - %s, has been removed from the list.\n", student.name, student.number);
                 return; // Exit the method once the student is found and removed
             }
         }
 
         // If no student with the given student number was found
-        System.out.println("\tNo student with the no. " + studentNumber + " found.");
+        System.out.println("\tNo student with the no. " + studentNumber + " found.\n");
     }
 
     public static void showIndividualStudentInfo() {
-        System.out.print("\tEnter the student number: ");
+        System.out.print("\t- Enter the student number: ");
+        scan.nextLine();
         String studentNumber = scan.nextLine();
 
         for (Student student : myStudents) {
@@ -92,20 +93,8 @@ public class lbArrayActTwo_Labadan {
                 return;
             }
         }
-        // We use the Iterator class to safely remove the student from the list
-        // Iterator<Student> iterator = myStudents.iterator();
-        // while (iterator.hasNext()) {
-        //     Student student = iterator.next(); 
-        //     if (student.number.equalsIgnoreCase(studentNumber)) {
-        //         // iterator.remove();
-        //         iterator.displayInfo();
-        //         // System.out.printf("%s - %s, has been removed from the list.", student.name, student.number);
-        //         return; // Exit the method once the person is found and removed
-        //     }
-        // }
-
         // If no student with the given student number was found
-        System.out.println("\tNo student with the no. " + studentNumber + " found.");
+        System.out.println("\tNo student with the no. " + studentNumber + " found.\n");
     }
 
 }

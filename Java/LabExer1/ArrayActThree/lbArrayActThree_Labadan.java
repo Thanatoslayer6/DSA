@@ -6,7 +6,7 @@ public class lbArrayActThree_Labadan {
     public static Scanner scan = new Scanner(System.in);
 
     public static void main(String args[]) {
-        char response = 'y';
+        String response;
         float[] arr = new float[10];
         fillArrayUserInput(arr); // Ask user to fill array with 10 floats
 
@@ -15,31 +15,33 @@ public class lbArrayActThree_Labadan {
             // Search for the element
             System.out.print(" ~ Enter value of element to remove: ");
             float elementToRemove = scan.nextFloat();
-            
+
             // Find the element using linear search if it exists
             int indexOfElementToRemove = searchForElement(arr, elementToRemove);
 
             if (indexOfElementToRemove == -1) {
                 System.out.println(" ~ NOT FOUND! ~");
-                System.out.print(" ~ Do you wish to continue? (y/n): ");
-                response = scan.next().charAt(0);
+                System.out.print("\n ~ Do you wish to continue? (YES/NO): ");
+                scan.nextLine(); // Clear newline input buffer
+                response = scan.nextLine();
                 continue;
-            }                
-            
+            }
+
             System.out.println(" ~ FOUND! ~");
 
             // Create a new array with length - 1
             float[] temp_arr = new float[arr.length - 1];
-            copyArrayExcept(arr, temp_arr, indexOfElementToRemove); 
+            copyArrayExcept(arr, temp_arr, indexOfElementToRemove);
             arr = null; // Clear out the original array
             arr = temp_arr; // Reassign the original array with newly created array
-            
+
             printArray(arr);
 
-            System.out.print(" ~ Do you wish to continue? (y/n): ");
-            response = scan.next().charAt(0);
+            System.out.print(" ~ Do you wish to continue? (YES/NO): ");
+            scan.nextLine(); // Clear newline input buffer
+            response = scan.nextLine();
 
-        } while (response == 'y' || response == 'Y');
+        } while (response.equalsIgnoreCase("YES"));
 
         System.out.println(" ~ Exiting program...");
     }
@@ -53,18 +55,23 @@ public class lbArrayActThree_Labadan {
     }
 
     public static void printArray(float array[]) {
+		// If array is empty stop the program
+		if (array.length == 0) {
+			System.out.println("\n ~ Array is now empty, exiting the program...");
+			System.exit(0);
+		}
         System.out.println("\n ~ Contents of array: " + Arrays.toString(array));
     }
-    
+
     // Method will search for the element in linear time, returns `-1` if not found
     public static int searchForElement(float array[], float elementToFind) {
         for (int i = 0; i < array.length; i++) {
-            if (array[i] == elementToFind) 
+            if (array[i] == elementToFind)
                 return i;
         }
         return -1;
     }
-    
+
     // Method will copy the elements of source into destination, except for the element that is passed
     public static void copyArrayExcept(float sourceArray[], float destinationArray[], int indexOfElement) {
         for (int srcIterator = 0, destIterator = 0; srcIterator < sourceArray.length; srcIterator++) {
