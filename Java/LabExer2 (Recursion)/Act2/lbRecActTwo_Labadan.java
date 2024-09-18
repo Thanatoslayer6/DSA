@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.security.KeyStore.SecretKeyEntry;
 import java.util.Arrays;
 
 /*
@@ -23,9 +24,6 @@ import java.util.Arrays;
 	════╩══════╩══════╩════
 
 	largest disk is (numberOfDisks * 2) + 1 characters wide
-	TODO: - ASCII VISUALIZER
-	      - ARRAY VISUALIZER
-	      - STEP-BY-STEP
 */
 
 class Hanoi {
@@ -56,6 +54,7 @@ class Hanoi {
         displayASCII();
 		System.out.println();
 		solve_recursion(numberOfDisks, source, auxiliary, destination);
+
 	}
 
 	public void solve_recursion(int n, char s, char a, char d) {
@@ -78,7 +77,6 @@ class Hanoi {
 		for (int i = 0; i < numberOfDisks; i++) {
 			System.out.println(Arrays.toString(arrayVisualizer[i]));
 		}
-
 	}
 
 	public void displayASCII() {
@@ -90,38 +88,31 @@ class Hanoi {
         System.out.println(" ".repeat(padding + padding) + "║" + " ".repeat(padding + padding) + "║" + " ".repeat(padding + padding) + "║" + " ".repeat(padding + padding));
         for (int row = 0; row < numberOfDisks; row++) {		
             for (int col = 0; col < 3; col++) {
+				int diskSize = arrayVisualizer[row][col];
                 // largest disk is (numberOfDisks * 2) + 1 characters wide        
-                if (arrayVisualizer[row][col] != 0) { // PRINT THE DISK
-                    System.out.print(" ".repeat(padding + (padding - arrayVisualizer[row][col])));
-                    characterPointer += padding + (padding - arrayVisualizer[row][col]);
-                    for (int k = 0; k < arrayVisualizer[row][col] * 2 + 1; k++) {
-                        System.out.print("█");
-                        characterPointer++;
-                    } 
+                if (diskSize != 0) { // PRINT THE DISK
+					int startAt = (col + 1) * (2 * padding + 1) - diskSize;
+					int endAt = startAt + (2 * diskSize);
+
+					while (characterPointer < endAt) {
+						characterPointer++;
+						if (characterPointer >= startAt) {
+                        	System.out.print("█");
+						} else {
+							System.out.print(" ");
+						}
+					}
                 } else {
                     while (characterPointer <= totalWidth) {
-                        if (characterPointer % (2 * padding + 1) == 0) {
+                        characterPointer++;
+                        if (characterPointer % (2 * padding + 1) == 0 && characterPointer != 0) {
                             System.out.print("║");
                             break;
                         }
                         System.out.print(" ");
-                        characterPointer++;
                     }
-                    // System.out.printf("%s%s", " ".repeat((padding + padding) + 1), "║");
                 }
-                // if ((characterPointer % (padding + padding) + 1) == 0) {
-                //     System.out.print("║");
-                // }
-                    // System.out.print("what");
-                    // System.out.print(" ".repeat(padding + padding) + "║" + " ".repeat(padding + padding) + "║" + " ".repeat(padding + padding) + "║" + " ".repeat(padding + padding));
-                    // Check previous column to determine the size or padding in terms of the placed disk
-                    // System.out.print("x");                   
-                    // System.out.printf("%s%s", " ".repeat(padding + padding - (row + 1)), "║"); 
-                // }
-                characterPointer++;
-                // System.out.print("x");
             }
-            // System.out.printf("After the loop %d, %d\n", row, characterPointer);
             characterPointer = 0;
             System.out.println();
         }
