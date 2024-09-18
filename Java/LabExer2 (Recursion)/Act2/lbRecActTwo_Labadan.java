@@ -53,6 +53,7 @@ class Hanoi {
 		}
 		System.out.println(" HOW IT LOOKS: ");
 		displayArray();
+        displayASCII();
 		System.out.println();
 		solve_recursion(numberOfDisks, source, auxiliary, destination);
 	}
@@ -62,12 +63,14 @@ class Hanoi {
 			System.out.printf("Moving disk from %c to %c\n", s, d);
 			moveElement(s, d);
 			displayArray();
+            displayASCII();
 			return;
 		}
 		solve_recursion(n - 1, s, d, a);
 		System.out.printf("Moving disk from %c to %c\n", s, d);
 		moveElement(s, d);
 		displayArray();
+        displayASCII();
 		solve_recursion(n - 1, a, s, d);
 	}
 
@@ -78,11 +81,52 @@ class Hanoi {
 
 	}
 
-	public void displayAscii() {
-		System.out.println("
-		for (int i = 0; i < numberOfDisks; i++) {
+	public void displayASCII() {
+        int padding = numberOfDisks + 1;
+        int characterPointer = 0;
+        int totalWidth = (2 * padding) + 1 + (2 * padding) + 1 + (2 * padding) + 1 + (2 * padding);
+        System.out.println("THE TOTAL WIDTH IS: " + totalWidth);
+        System.out.println("THE PADDING THINGY IS: " + (2 * padding + 1));
+        System.out.println(" ".repeat(padding + padding) + "║" + " ".repeat(padding + padding) + "║" + " ".repeat(padding + padding) + "║" + " ".repeat(padding + padding));
+        for (int row = 0; row < numberOfDisks; row++) {		
+            for (int col = 0; col < 3; col++) {
+                // largest disk is (numberOfDisks * 2) + 1 characters wide        
+                if (arrayVisualizer[row][col] != 0) { // PRINT THE DISK
+                    System.out.print(" ".repeat(padding + (padding - arrayVisualizer[row][col])));
+                    characterPointer += padding + (padding - arrayVisualizer[row][col]);
+                    for (int k = 0; k < arrayVisualizer[row][col] * 2 + 1; k++) {
+                        System.out.print("█");
+                        characterPointer++;
+                    } 
+                } else {
+                    while (characterPointer <= totalWidth) {
+                        if (characterPointer % (2 * padding + 1) == 0) {
+                            System.out.print("║");
+                            break;
+                        }
+                        System.out.print(" ");
+                        characterPointer++;
+                    }
+                    // System.out.printf("%s%s", " ".repeat((padding + padding) + 1), "║");
+                }
+                // if ((characterPointer % (padding + padding) + 1) == 0) {
+                //     System.out.print("║");
+                // }
+                    // System.out.print("what");
+                    // System.out.print(" ".repeat(padding + padding) + "║" + " ".repeat(padding + padding) + "║" + " ".repeat(padding + padding) + "║" + " ".repeat(padding + padding));
+                    // Check previous column to determine the size or padding in terms of the placed disk
+                    // System.out.print("x");                   
+                    // System.out.printf("%s%s", " ".repeat(padding + padding - (row + 1)), "║"); 
+                // }
+                characterPointer++;
+                // System.out.print("x");
+            }
+            // System.out.printf("After the loop %d, %d\n", row, characterPointer);
+            characterPointer = 0;
+            System.out.println();
+        }
 
-		}
+        System.out.println("═".repeat(padding + padding) + "╩" + "═".repeat(padding + padding) + "╩" + "═".repeat(padding + padding) + "╩" + "═".repeat(padding + padding));
 	}
 
 	// Column indices must be passed
