@@ -3,10 +3,15 @@ import java.util.Scanner;
 public class lbRecActOne_Labadan {
 	public static void main(String args[]) {
 		Scanner scan = new Scanner(System.in);
-		System.out.println("\t========== STRING LENGTH RECURSION ==========\n");
-		System.out.print("\t Enter a string: ");
-		String userInput = scan.nextLine();
-		System.out.printf("\t The length is: %d\n\n", getStringLength(userInput));
+		String userResponse = "YES";
+		do {
+			System.out.println("\n\t========== STRING LENGTH RECURSION ==========\n");
+			System.out.print("\t Enter a string: ");
+			String userInput = scan.nextLine();
+			System.out.printf("\t The length is: %d\n\n", getStringLength(userInput));
+			System.out.print("\t Continue? (YES/NO): ");
+			userResponse = scan.nextLine();
+		} while (userResponse.equalsIgnoreCase("YES"));
 		System.out.println("\t=============================================\n");
 	}
 

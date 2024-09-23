@@ -1,5 +1,3 @@
-import java.util.Arrays;
-
 class Hanoi {
 	int towerDiskStates[][];
 	int numberOfDisks, numberOfSteps;
@@ -53,12 +51,12 @@ class Hanoi {
             numberOfSteps++;
 			return;
 		}
-		solve_recursion(n - 1, s, d, a); // STEP 1: Move n-1 disks from 1st rod (source) to 2nd rod (auxiliary)
-		System.out.printf("\n\t  STEP #%d: Moving disk from %c to %c\n\n", numberOfSteps + 1, s, d); // STEP 2: Move largest disk to 3rd rod (destination)
+		solve_recursion(n - 1, s, d, a);
+		System.out.printf("\n\t  STEP #%d: Moving disk from %c to %c\n\n", numberOfSteps + 1, s, d);
 		moveElement(s, d);
         displayTowersAscii();
         numberOfSteps++;
-		solve_recursion(n - 1, a, s, d); // STEP 3: Move n-1 disks from 2nd rod (auxiliary) to 3rd rod (destination)
+		solve_recursion(n - 1, a, s, d);
 	}
 
 	private void displayTowersAscii() {
@@ -97,7 +95,8 @@ class Hanoi {
             cursor = 0; // Reset cursor to zero because we proceed to new line
         }
         printTowersBorder(padding, "═", "╩", "╩", "╩");
-        printTowersBorder(padding, " ", String.valueOf(source), String.valueOf(auxiliary), String.valueOf(destination)); // Print rod letters
+        // Print rod letters
+        printTowersBorder(padding, " ", String.valueOf(source), String.valueOf(auxiliary), String.valueOf(destination));
 	}
 
 	private void printTowersBorder(int padding, String base, String rod1, String rod2, String rod3) {
@@ -110,7 +109,7 @@ class Hanoi {
 	}
 
 	// Column indices must be passed, e.g `moveElement('J', 'Y')`
-	public void moveElement(char srcRod, char destRod) {
+	private void moveElement(char srcRod, char destRod) {
 		// // Get the column indices for source and destination rods
 		int diskToMove = 0;
 		int srcColumn = getColumnIndex(srcRod); // Use helper function to get the index
