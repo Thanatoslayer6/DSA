@@ -37,7 +37,7 @@ public class labLLActOne_Labadan {
             } else {
                 System.out.println("\n\t-- INVALID INPUT! --");
             }
-            
+
             System.out.print("\n\t- Do you wish to continue? [YES/NO]: ");
             continueOption = scan.nextLine();
 
