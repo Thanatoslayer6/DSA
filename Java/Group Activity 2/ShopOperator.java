@@ -13,7 +13,7 @@ public class ShopOperator {
         for (Item item : Item.availableItems) {
             if (item.id.equals(itemID)) {
                 System.out.print("\t\t\t Enter quantity: ");
-                int quantity = scan.nextInt();
+                int quantity = scan.nextInt(); 
                 if (quantity <= item.stock) {
                     item.stock -= quantity;
                     double amount = item.price * quantity;
@@ -41,21 +41,33 @@ public class ShopOperator {
         return isDeleted;
     }
 
-    public void searchItem(String itemID) {
-        //System.out.println("Enter Item ID to search on the cart: ");
-        //String itemName = scanner.nextLine();
-        // Base to sa itemID
-        for(Item item : Item.availableItems) {
-            if (item.id.equals(itemID)) {
-                System.out.println("Item has been found on the cart " + item);
+    public void searchItem(String searchedItem) {
+        // Based on item.id
+        for(Item item : Item.availableItems) { 
+            if (item.id.equals(searchedItem)) {
+                System.out.println("Item is available " + item.name);
+                return;
             }
         }
-        // Base sa name
-        for (Item item: Item.availableItems) {
-            if (item.name.)
+
+        // Based on item.name
+        for (Item item : Item.availableItems) {
+            // (?i) - means case insensitive
+            // ^ - means start of string
+            // %s - format delimiter for String type
+            // + - one or more of the preceeding element
+            //String pattern = String.format("(?i)^%s?.+", searchedItem); // this marreplace yung %s ng searchedItem
+            // TODO: Explain regex pattern
+            String pattern = String.format("(?i).*%s.*", searchedItem); // THIS PATTERN IS INSANE IT WORKS!
+            // System.out.println(pattern);
+
+            // TODO: Formatting
+            if (item.name.matches(pattern)) { // this is endgame now, aight final pattern....
+                System.out.println("\t\t\t Item -> " + item.name);
+            }
         }
         
-        System.out.println("The item is not found on the cart.");
+        //System.out.println("The item is unavailable/doesn't exist.");
     }
 
     public void calculateTransaction() {
@@ -90,11 +102,17 @@ public class ShopOperator {
             System.out.println("\n\n\t\t\t. . NO ITEMS ARE IN THE CART . .");
             return;
         }
-        // TODO: Remove 'stock'
-        System.out.printf("%-5s %-30s %-30s %-15s %-10s %-10s\n", "Id", "Name", "Description", "Category", "Price", "Stock");
-        System.out.println("-----------------------------------------------------------------------------------------------------");
+        // what heppend 
+        // TODO: Remove 'stock' // last column shud be quantity, total, hmmm, how to get quantity  // should we continue tomorr //  i will leave this to Rico frfr he will do ta        
+        System.out.printf("%-5s %-25s %-15s %-15s %-10s %-10s\n", "Id", "Name", "Description", "Category", "Price", "Quantity", "Amount");
+        System.out.println("------------------------------------------------------------------------------------");
         for (Item item : cart) {
-            System.out.printf("%-5s %-30s %-30s %-15s %-9.2f %-9d\n", item.id, item.name, item.description, item.type.name(), item.price, item.stock);
+            // TODO: Proper output sa quantity and total columns
+            System.out.printf("%-5s %-25s %-15s %-15s %-10.2f %-10d\n", item.id, item.name, item.description, item.type.name(), 2);
         }      
-    }
+   }
 }
+// i will send whole private repo go github doood, para marun mo ung activity
+
+// formatting sa #2 and #3, tas checkout kulang yeppp
+// checkout nalang ba kulang??????

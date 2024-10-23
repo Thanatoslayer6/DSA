@@ -2,8 +2,8 @@ import java.util.LinkedList;
 
 public class Item {
     public static enum Category {
-        FRUITS, // 0
-        VEGETABLES, // 1
+        FRUITS,
+        VEGETABLES,
         DAIRY,
         MEAT,
         BAKERY,
@@ -34,31 +34,31 @@ public class Item {
     }
 
     public void displayAllItems() {
-        System.out.printf("%-5s %-30s %-30s %-15s %-10s %-10s\n", "Id", "Name", "Description", "Category", "Price", "Stock");
-        System.out.println("-----------------------------------------------------------------------------------------------------");
+        System.out.printf("%-5s %-25s %-15s %-15s %-10s %-10s\n", "Id", "Name", "Description", "Category", "Price", "Stock");
+        System.out.println("------------------------------------------------------------------------------------");
         for (Item item: availableItems) {
-            System.out.printf("%-5s %-30s %-30s %-15s %-9.2f %-9d\n", item.id, item.name, item.description, item.type.name(), item.price, item.stock);
+            System.out.printf("%-5s %-25s %-15s %-15s %-10.2f %-10d\n", item.id, item.name, item.description, item.type.name(), item.price, item.stock);
         }
     }
 
     public void displayItemsInCategory(int type) {
         //System.out.printf("%-10s %-15s %-15s %-10s %-10s %-10s\n", "Id", "Name", "Description", "Category", "Price", "Stock");
-        System.out.printf("%-5s %-30s %-30s %-15s %-10s %-10s\n", "Id", "Name", "Description", "Category", "Price", "Stock");
-        System.out.println("-----------------------------------------------------------------------------------------------------");
+        System.out.printf("%-5s %-25s %-15s %-15s %-10s %-10s\n", "Id", "Name", "Description", "Category", "Price", "Stock");
+        System.out.println("------------------------------------------------------------------------------------");
         for (Item item : availableItems) {
             if (item.type.ordinal() == type) {
                 //System.out.printf("%-10s %-15s %-15s %-10s %-9.2f %-9.2d", item.id, item.name, item.description, item.type.name(), item.stock);
-                System.out.printf("%-5s %-30s %-30s %-15s %-9.2f %-9d\n", item.id, item.name, item.description, item.type.name(), item.price, item.stock);
+                System.out.printf("%-5s %-25s %-15s %-15s %-10.2f %-10d\n", item.id, item.name, item.description, item.type.name(), item.price, item.stock);
             }
         }
     }
 
     public void initializeItems() {
         // Fruits
-        availableItems.add(new Item("F01", "Apple", "6pcs of packed red apples.", Category.FRUITS, 209.0, 75));
+        availableItems.add(new Item("F01", "Apple", "6pcs pack", Category.FRUITS, 209.0, 75));
         availableItems.add(new Item("F02", "Lemon", "6pcs pack", Category.FRUITS, 139, 30 ));
         availableItems.add(new Item("F03", "Grapes", "1kg", Category.FRUITS, 479, 51 ));
-        availableItems.add(new Item("F04", "Banana", "1kg of Lakatan", Category.FRUITS, 99, 29 ));
+        availableItems.add(new Item("F04", "Banana", "1kg", Category.FRUITS, 99, 29 ));
         availableItems.add(new Item("F05", "Watermelon", "1 whole-sized", Category.FRUITS, 139, 13 ));
         // Vegetables
         availableItems.add(new Item("V01", "Onion","500g", Category.VEGETABLES, 42, 201 ));
@@ -67,7 +67,7 @@ public class Item {
         availableItems.add(new Item("V04", "Carrot","500g", Category.VEGETABLES, 119, 41 ));
         availableItems.add(new Item("V05", "Cabbage","600g-700g", Category.VEGETABLES, 119, 41 ));
         // Dairy
-        availableItems.add(new Item("D01", "Fresh Eggs","per Tray", Category.DAIRY, 295, 56 ));
+        availableItems.add(new Item("D01", "Fresh Eggs","3 dozen", Category.DAIRY, 295, 56 ));
         availableItems.add(new Item("D02", "Evaporated Milk","370mL", Category.DAIRY, 34.95, 110 ));
         availableItems.add(new Item("D03", "Buttermilk (Salted)","200g", Category.DAIRY, 60.50, 89 ));
         availableItems.add(new Item("D04", "Filled Cheese","430g", Category.DAIRY, 145, 45 ));
@@ -85,7 +85,7 @@ public class Item {
         availableItems.add(new Item("B04", "Cupcake","10pcs.", Category.BAKERY, 82.50, 72 ));
         availableItems.add(new Item("B05", "All Purpose Breading Mix","65g", Category.BAKERY, 11.50, 209 ));
         // Beverages,
-        availableItems.add(new Item("E01", "Coca-cola Coke","1.5L", Category.BEVERAGES, 61, 203 ));
+        availableItems.add(new Item("E01", "Coca-Cola Coke","1.5L", Category.BEVERAGES, 61, 203 ));
         availableItems.add(new Item("E02", "Sprite","1.5L", Category.BEVERAGES, 61, 179 ));
         availableItems.add(new Item("E03", "Royal","1.5L", Category.BEVERAGES, 61, 150 ));
         availableItems.add(new Item("E04", "Root Beer","1.5L", Category.BEVERAGES, 61, 301 ));
@@ -95,7 +95,7 @@ public class Item {
         availableItems.add(new Item("S01", "Stick-O ","380g", Category.SNACKS, 84.50, 88 ));
         availableItems.add(new Item("S02", "VCut Potato Chips ","25g", Category.SNACKS, 19.50, 51 ));
         availableItems.add(new Item("S03", "Leslie Cheezy","70g", Category.SNACKS, 31.50, 91 ));
-        availableItems.add(new Item("S04", "Dewberry ","33g(10pcs.)", Category.SNACKS, 85.50, 89 ));
+        availableItems.add(new Item("S04", "Dewberry ","33g (10pcs.)", Category.SNACKS, 85.50, 89 ));
         availableItems.add(new Item("S05", "Pringles ","107g", Category.SNACKS, 92.50, 144 ));
         // Condiments
         availableItems.add(new Item("C01", "Fish Sauce","1L", Category.CONDIMENTS, 67.50, 48 ));

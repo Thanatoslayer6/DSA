@@ -57,7 +57,7 @@ public class GA02ProblemTwo {
                     "%-20s 2.) DELETE ITEM IN CART\n",
                     "%-20s 3.) BACK\n"
                 });
-                userInput = prompt("\t\t\t Select a number [1-2]: ", 1, 2);
+                userInput = prompt("\t\t\t Select a number [1-3]: ", 1, 3);
                 if (userInput == 1) {
                     System.out.print("\t\t\t Enter Item ID to be added on the cart: ");
                     String itemId = scan.nextLine();
@@ -76,8 +76,24 @@ public class GA02ProblemTwo {
                 }
             }
 		} else if (userInput == 3) { // Search item
-            System.out.printf("\t\t\t Enter Item Name/ItemID ");
-            //itemsr = scan.nextLine();
+            System.out.printf("\t\t\t Enter Item Name/Item ID: ");  
+            String itemNameOrId = scan.nextLine();
+            while(true) {
+                clearScreen();
+                op.searchItem(itemNameOrId); 
+                displayOptions(false, " Search All Items ", new String[]{
+                    "%-20s 1.) PERFORM SEARCH QUERY\n",
+                    "%-20s 2.) BACK\n",
+                });
+                userInput = prompt("\t\t\t Select a number [1-2]: ", 1, 2);
+                if (userInput == 1) {
+                    System.out.printf("\t\t\t Enter Item Name/Item ID: ");  
+                    itemNameOrId = scan.nextLine();
+                } else if (userInput == 2) {
+                    break;
+                }
+            }
+
 
 		} else if (userInput == 4) { // Checkout
 
