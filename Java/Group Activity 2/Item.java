@@ -1,5 +1,5 @@
 import java.util.LinkedList;
-
+ 
 public class Item {
     public static enum Category {
         FRUITS,
@@ -14,8 +14,8 @@ public class Item {
 
     public String id, name, description;
     public Category type;
-    public double price;
-    public int stock;
+    public double price, totalAmount;
+    public int stock, quantity;
     public static LinkedList<Item> availableItems;
 
     // Constructor
@@ -42,12 +42,10 @@ public class Item {
     }
 
     public void displayItemsInCategory(int type) {
-        //System.out.printf("%-10s %-15s %-15s %-10s %-10s %-10s\n", "Id", "Name", "Description", "Category", "Price", "Stock");
         System.out.printf("%-5s %-25s %-15s %-15s %-10s %-10s\n", "Id", "Name", "Description", "Category", "Price", "Stock");
         System.out.println("------------------------------------------------------------------------------------");
         for (Item item : availableItems) {
             if (item.type.ordinal() == type) {
-                //System.out.printf("%-10s %-15s %-15s %-10s %-9.2f %-9.2d", item.id, item.name, item.description, item.type.name(), item.stock);
                 System.out.printf("%-5s %-25s %-15s %-15s %-10.2f %-10d\n", item.id, item.name, item.description, item.type.name(), item.price, item.stock);
             }
         }
