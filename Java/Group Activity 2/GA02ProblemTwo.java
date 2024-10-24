@@ -10,9 +10,9 @@ public class GA02ProblemTwo {
 
         while (true) {
             displayOptions(true, "Welcome to Cart2Go",new String[]{
-                "%-20s 1.) DISPLAY ITEMS (All or Based on Category)\n", 
+                "%-20s 1.) DISPLAY ITEMS (All or Based on Category)\n",
                 "%-20s 2.) SHOW CART (Add or Delete Items)\n",
-                "%-20s 3.) SEARCH ITEM (Based on Id or Name)\n",
+                "%-20s 3.) SEARCH ITEM (Based on ID or Name)\n",
                 "%-20s 4.) CHECKOUT\n",
                 "%-20s 5.) EXIT\n",
             });
@@ -29,7 +29,7 @@ public class GA02ProblemTwo {
                     if (userInput == 1) {
                         clearScreen();
                         item.displayAllItems();
-                        System.out.print("\n\t\t\t<===== Press Enter to go back . . ."); 
+                        System.out.print("\n\t\t\t<===== Press Enter to go back . . .");
                         scan.nextLine();  // Wait for user to press Enter
                     } else if (userInput == 2) {
                         clearScreen();
@@ -86,7 +86,7 @@ public class GA02ProblemTwo {
                 String itemNameOrId = "", itemId = "";
                 while(true) {
                     if (didUserAddItem == false) {
-                        System.out.printf("\t\t\t Enter Item Name/Item ID: ");  
+                        System.out.printf("\t\t\t Enter Item Name/Item ID: ");
                         itemNameOrId = scan.nextLine();
                     }
                     clearScreen();
@@ -100,7 +100,7 @@ public class GA02ProblemTwo {
                     if (userInput == 1) {
                         didUserAddItem = false;
                         continue;
-                    } else if (userInput == 2) { 
+                    } else if (userInput == 2) {
                         System.out.print("\t\t\t Enter Item ID to be added on the cart: ");
                         itemId = scan.nextLine();
                         op.addItem(itemId);
@@ -114,13 +114,18 @@ public class GA02ProblemTwo {
             } else if (userInput == 4) { // Checkout
                 clearScreen();
                 if (op.calculateTransaction()) {
+					System.out.print("\n\t\t\t Press Enter to proceed =====> ");
+					scan.nextLine();
+					clearScreen();
+					displayOptions(true, "Thanks for Shopping", new String[]{"%-35s Goodbye."});
                     break;
                 }
                 System.out.print("\n\t\t\t<===== Press Enter to go back . . .");
-                scan.nextLine();  // Wait for user to press Enter  
+                scan.nextLine();  // Wait for user to press Enter
                 clearScreen();
             } else if (userInput == 5) { // Exit
-                System.out.printf("\n%-20s EXITING PROGRAM THANK YOU :D\n\n", " ");
+            	clearScreen();
+                displayOptions(true, "Thanks for Shopping", new String[]{"%-35s Goodbye."});
                 break;
             }
         }
