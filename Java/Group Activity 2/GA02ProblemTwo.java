@@ -1,12 +1,7 @@
-import java.util.Scanner;
-
 public class GA02ProblemTwo {
-	public static Scanner scan = new Scanner(System.in);
-
     public static void main(String[] args) {
         ShopOperator op = new ShopOperator();
         Item item = new Item();
-        item.initializeItems();
 
         while (true) {
             displayOptions(true, "Welcome to Cart2Go",new String[]{
@@ -30,7 +25,7 @@ public class GA02ProblemTwo {
                         clearScreen();
                         item.displayAllItems();
                         System.out.print("\n\t\t\t<===== Press Enter to go back . . .");
-                        scan.nextLine();  // Wait for user to press Enter
+                        ShopOperator.scan.nextLine();  // Wait for user to press Enter
                     } else if (userInput == 2) {
                         clearScreen();
                         displayOptions(true, "Select a Category ", new String[]{
@@ -47,7 +42,7 @@ public class GA02ProblemTwo {
                         clearScreen();
                         item.displayItemsInCategory(userInput - 1);
                         System.out.print("\n\t\t\t<===== Press Enter to go back . . .");
-                        scan.nextLine();  // Wait for user to press Enter
+                        ShopOperator.scan.nextLine();  // Wait for user to press Enter
                     } else if (userInput == 3) {
                         clearScreen();
                         break;
@@ -65,12 +60,12 @@ public class GA02ProblemTwo {
                     userInput = prompt("\t\t\t Select a number [1-3]: ", 1, 3);
                     if (userInput == 1) {
                         System.out.print("\t\t\t Enter Item ID to be added on the cart: ");
-                        String itemId = scan.nextLine();
+                        String itemId = ShopOperator.scan.nextLine();
                         op.addItem(itemId);
                         continue;
                     } else if (userInput == 2) {
                         System.out.print("\t\t\t Enter Item ID to be deleted on the cart: ");
-                        String itemId = scan.nextLine();
+                        String itemId = ShopOperator.scan.nextLine();
                         if (op.deleteItem(itemId)) {
                             System.out.printf("\t\t\t [Item %s] successfully removed from the cart", itemId);
                             continue;
@@ -87,7 +82,7 @@ public class GA02ProblemTwo {
                 while(true) {
                     if (didUserAddItem == false) {
                         System.out.printf("\t\t\t Enter Item Name/Item ID: ");
-                        itemNameOrId = scan.nextLine();
+                        itemNameOrId = ShopOperator.scan.nextLine();
                     }
                     clearScreen();
                     op.searchItem(itemNameOrId);
@@ -102,7 +97,7 @@ public class GA02ProblemTwo {
                         continue;
                     } else if (userInput == 2) {
                         System.out.print("\t\t\t Enter Item ID to be added on the cart: ");
-                        itemId = scan.nextLine();
+                        itemId = ShopOperator.scan.nextLine();
                         op.addItem(itemId);
                         didUserAddItem = true;
                         continue;
@@ -112,20 +107,22 @@ public class GA02ProblemTwo {
                     }
                 }
             } else if (userInput == 4) { // Checkout
+                System.out.print("\t\t Is the customer a Senior Citizen or PWD? (YES/NO): ");
+                boolean isSeniorOrPWD = (ShopOperator.scan.nextLine()).equalsIgnoreCase("YES");  
                 clearScreen();
-                if (op.calculateTransaction()) {
+                if (op.displayTransaction(isSeniorOrPWD)) {
 					System.out.print("\n\t\t\t Press Enter to proceed =====> ");
-					scan.nextLine();
+					ShopOperator.scan.nextLine();
+                    op.resetCart();
 					clearScreen();
-					displayOptions(true, "Thanks for Shopping", new String[]{"%-35s Goodbye."});
-                    break;
+                    continue;
                 }
                 System.out.print("\n\t\t\t<===== Press Enter to go back . . .");
-                scan.nextLine();  // Wait for user to press Enter
+                ShopOperator.scan.nextLine();  // Wait for user to press Enter
                 clearScreen();
             } else if (userInput == 5) { // Exit
             	clearScreen();
-                displayOptions(true, "Thanks for Shopping", new String[]{"%-35s Goodbye."});
+                displayOptions(true, "Thanks for Shoppin", new String[]{"%-35s Goodbye."});
                 break;
             }
         }
@@ -155,7 +152,7 @@ public class GA02ProblemTwo {
             System.out.println("\tMM.     .dM `88888P8 dP         dP   Y88888P MM.     .MM `88888P' ");
             System.out.println("\tMMMMMMMMMMM                                  MMMMMMMMMMM          ");
         }
-        // Banner message should be exactly 18 characters...
+        // Banner message should be exactly 18 characters for the design to be symmetrical
         System.out.println("\n\n\t===================== " + bannerMessage + " ========================\n");
         for (String element: options) {
             System.out.printf(element, " ");
@@ -167,8 +164,8 @@ public class GA02ProblemTwo {
 	public static int prompt(String text, int minimum, int maximum) {
 		while (true) {
 		    System.out.print(text);
-			int number = scan.nextInt();
-            scan.nextLine(); // Clear newline buffer
+			int number = ShopOperator.scan.nextInt();
+            ShopOperator.scan.nextLine(); // Clear newline buffer
 			if (number < minimum || number > maximum) {
 				System.out.printf("\t\t\t ERROR! Please enter range between %d-%d!\n", minimum, maximum);
 				continue;

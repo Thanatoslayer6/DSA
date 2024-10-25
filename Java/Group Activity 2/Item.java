@@ -18,9 +18,10 @@ public class Item {
     public int stock, quantity;
     public static LinkedList<Item> availableItems;
 
-    // Constructor
+    // Constructor will activate availableItems and put all items in the list
     public Item() {
         availableItems = new LinkedList<>();
+        initializeItems();
     }
 
     // Overload the constructor if parameters are passed
@@ -36,7 +37,7 @@ public class Item {
     public void displayAllItems() {
         System.out.printf("%-5s %-25s %-15s %-15s %-10s %-10s\n", "Id", "Name", "Description", "Category", "Price", "Stock");
         System.out.println("------------------------------------------------------------------------------------");
-        for (Item item: availableItems) {
+        for (Item item : availableItems) {
             System.out.printf("%-5s %-25s %-15s %-15s %-10.2f %-10d\n", item.id, item.name, item.description, item.type.name(), item.price, item.stock);
         }
     }
@@ -102,5 +103,4 @@ public class Item {
         availableItems.add(new Item("C04", "Iodized Salt","150g", Category.CONDIMENTS, 13.50, 89 ));
         availableItems.add(new Item("C05", "Vinegar","1L", Category.CONDIMENTS, 40, 142 ));
     }
-
 }

@@ -1,10 +1,14 @@
 import java.util.LinkedList;
 import java.util.Scanner;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 public class ShopOperator {
-    public LinkedList<Item> cart;
-    public Scanner scan;
-    public ShopOperator() {
+    public static Scanner scan;
+    private LinkedList<Item> cart;
+
+    public ShopOperator() { // Activates scan and cart
         scan = new Scanner(System.in);
         cart = new LinkedList<>();
     }
@@ -14,7 +18,7 @@ public class ShopOperator {
             if (item.id.equals(itemID)) {
                 System.out.print("\t\t\t Enter quantity: ");
                 int quantity = scan.nextInt();
-                scan.nextLine();
+                scan.nextLine(); // Clear newline buffer
                 if (quantity <= item.stock) {
                     item.quantity = quantity;
                     item.totalAmount = item.price * quantity;
@@ -45,7 +49,12 @@ public class ShopOperator {
     boolean deleteItem(String itemID){
         boolean isDeleted = false;
         for (int i = 0; i < cart.size(); i++) {
-            if (cart.get(i).id.equals(itemID)) {
+            Item item = cart.get(i); // Create Item variable for better readability
+            if (item.id.equals(itemID)) {
+                // Before removing the item, we need to put the qty back in the stock
+                item.stock += item.quantity;
+                item.quantity = 0;
+                item.totalAmount = 0;
                 cart.remove(i);
                 isDeleted = true;
                 break;
@@ -58,7 +67,6 @@ public class ShopOperator {
         // Based on item.id
         for(Item item : Item.availableItems) {
             if (item.id.equals(searchedItem)) {
-                // TODO: Formatting
                 System.out.printf("%-5s %-25s %-15s %-15s %-10s %-10s\n", "Id", "Name", "Description", "Category", "Price", "Stock");
                 System.out.println("------------------------------------------------------------------------------------");
                 System.out.printf("%-5s %-25s %-15s %-15s %-10.2f %-10d\n", item.id, item.name, item.description, item.type.name(), item.price, item.stock);
@@ -71,72 +79,74 @@ public class ShopOperator {
         System.out.println("------------------------------------------------------------------------------------");
         for (Item item : Item.availableItems) {
             // (?i) - means case insensitive
-            // %s - format delimiter for String type
-            // TODO: Explain regex pattern
-            String pattern = String.format("(?i).*%s.*", searchedItem); // THIS PATTERN IS INSANE IT WORKS!
-            if (item.name.matches(pattern)) {
+            // .* - matches any character (.) zero or more times (*), meaning it can match anything before and after the searched item.
+            // %s - format delimiter or placeholder for String type
+            // Basically the pattern checks if searchedItem appears anywhere in a string, ignoring case.
+            String regexPattern = String.format("(?i).*%s.*", searchedItem);
+            if (item.name.matches(regexPattern)) {
                 System.out.printf("%-5s %-25s %-15s %-15s %-10.2f %-10d\n", item.id, item.name, item.description, item.type.name(), item.price, item.stock);
             }
         }
-        //System.out.println("The item is unavailable/doesn't exist.");
     }
 
 
-    public boolean calculateTransaction() {
-
+    public boolean displayTransaction(boolean isSeniorOrPWD) {
         if (cart.isEmpty()) {
-            System.out.println("\n\t\t ~ Saars, please puts ze items ze carts - Rene Descartes ~");
+            System.out.println("\n\t\t\t. . NO ITEMS ARE IN THE CART . .");
             return false;
         }
 
-        double totalamount = 0;
-        String isSenior;
+        double subTotal = 0;
         double discount = 0;
-        System.out.println("---------------------------------------------------------------------------------------------------");
-        System.out.print("\n\t\t\t Is the customer a Senior Citizen or PWD? (YES/NO): ");
-        isSenior = scan.nextLine();
-
-        System.out.println("---------------------------------------------------------------------------------------------------");
-        System.out.println("\t\t\t Receipt of the Items: \n");
-        System.out.printf("%-5s %-25s %-15s %-15s %-10s %-10s %-10s\n", "Id", "Name", "Description", "Category", "Price", "Quantity", "Total Amount");
-       System.out.println("---------------------------------------------------------------------------------------------------");
+        String formattedDate = LocalDate.now().format(DateTimeFormatter.ofPattern("MMMM dd, yyyy"));
+        String formattedTime = LocalTime.now().format(DateTimeFormatter.ofPattern("hh:mm a"));
+        System.out.println("--------------------------------------------------------------------------");
+        System.out.println("\n\t\t\t Cart2Go - Receipt\n");
+        System.out.println("\t\t\t Date: " + formattedDate);
+        System.out.println("\t\t\t Time: " + formattedTime);
+        System.out.println("\t\t\t Items Purchased: " + cart.size() + "\n");
+        System.out.println("--------------------------------------------------------------------------");
+        System.out.printf("%-25s %-15s %-10s %-10s %-10s\n", "Name", "Description", "Price", "Quantity", "Total");
+        System.out.println("--------------------------------------------------------------------------");
+        // Summation of amount of items
         for (Item item : cart) {
-            System.out.printf("%-5s %-25s %-15s %-15s %-10.2f %-10d %-10.2f\n",
-                                item.id,
+            System.out.printf("%-25s %-15s %-10.2f %-10d %-10.2f\n",
                                 item.name,
                                 item.description,
-                                item.type.name(),
                                 item.price,
                                 item.quantity,
                                 item.totalAmount
                             );
-            totalamount += item.totalAmount;
+            subTotal += item.totalAmount;
         }
+        System.out.println("--------------------------------------------------------------------------");
 
-        // Discounts
-        double vat = totalamount * 0.12;
-        if (isSenior.equalsIgnoreCase("YES")) {
-            discount = totalamount * 0.10;
+        // Calculate VAT, Discount, Total, and Change
+        double VAT = subTotal * 0.12;
+        if (isSeniorOrPWD) {
+            discount = subTotal * 0.10;
         }
-        double finalamount = (totalamount + vat) - discount;
+        double total = (subTotal + VAT) - discount;
 
-        System.out.println("\n\t\t\t Total Amount: " + totalamount + "php");
-        System.out.println("\t\t\t VAT (12%): " + vat + "php");
-        System.out.println("\t\t\t Discount: " + discount + "php");
-        System.out.println("\t\t\t Final Amount: " + finalamount + "php");
+        System.out.printf("\n\t\t Subtotal....................: ₱ %.2f", subTotal);
+        System.out.printf("\n\t\t VAT (12%%)...................: ₱ %.2f", VAT);
+        System.out.printf("\n\t\t Discount....................: ₱ %.2f", discount);
+        System.out.printf("\n\t\t Total.......................: ₱ %.2f", total);
 
-        //payment time
-        System.out.print("\n\n\t\t\t Enter Payment: ");
-        double customerPayment = scan.nextDouble();
-        scan.nextLine();
-        if(customerPayment < finalamount){
-            System.out.println("\t\t\t Insufficient Funds. Pay with exact amount or more.");
+        // Payment time
+        System.out.print("\n\n\t\t Payment.....................: ₱ ");
+        double payment = scan.nextDouble();
+        scan.nextLine(); // Clear newline buffer
+        if(payment < total){
+            System.out.println("\n\t\t Insufficient Funds. Pay with exact amount or more.");
             return false;
         }
 
-        System.out.println("\t\t\t Payment Complete!");
-        double change = customerPayment - finalamount;
-        System.out.println("\t\t\t Total Change: " + change);
+        System.out.println("\n\t\t\t Payment Successful!");
+        double change = payment - total;
+        System.out.printf("\n\t\t Change.......................: ₱ %.2f", change);
+        System.out.println("\n\n\t\t --- Thanks for Shopping @ Cart2Go! --- \n");
+        System.out.println("--------------------------------------------------------------------------");
         return true;
     }
 
@@ -146,8 +156,7 @@ public class ShopOperator {
             System.out.println("\n\n\t\t\t. . NO ITEMS ARE IN THE CART . .");
             return;
         }
-        // TODO: Remove 'stock' // last column shud be quantity, total, hmmm, how to get quantity  // should we continue tomorr //  i will leave this to Rico frfr he will do ta
-        System.out.printf("%-5s %-25s %-15s %-15s %-10s %-10s %-10s\n", "Id", "Name", "Description", "Category", "Price", "Quantity", "Total Amount");
+        System.out.printf("%-5s %-25s %-15s %-15s %-10s %-10s %-10s\n", "Id", "Name", "Description", "Category", "Price", "Quantity", "Total");
         System.out.println("---------------------------------------------------------------------------------------------------");
         for (Item item : cart) {
             System.out.printf("%-5s %-25s %-15s %-15s %-10.2f %-10d %-10.2f\n",
@@ -160,5 +169,14 @@ public class ShopOperator {
                                 item.totalAmount
                             );
         }
+   }
+
+   public void resetCart() {
+       // Reset quantity and totalAmount fields before clearing...
+       for (Item item : cart) {
+            item.quantity = 0;
+            item.totalAmount = 0;
+       }
+       cart.clear();
    }
 }
