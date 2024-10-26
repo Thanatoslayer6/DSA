@@ -128,13 +128,13 @@ public class ShopOperator {
         }
         double total = (subTotal + VAT) - discount;
 
-        System.out.printf("\n\t\t Subtotal....................: ₱ %.2f", subTotal);
-        System.out.printf("\n\t\t VAT (12%%)...................: ₱ %.2f", VAT);
-        System.out.printf("\n\t\t Discount....................: ₱ %.2f", discount);
-        System.out.printf("\n\t\t Total.......................: ₱ %.2f", total);
+        System.out.printf("\n\t\t Subtotal....................: PHP %.2f", subTotal);
+        System.out.printf("\n\t\t VAT (12%%)...................: PHP %.2f", VAT);
+        System.out.printf("\n\t\t Discount....................: PHP %.2f", discount);
+        System.out.printf("\n\t\t Total.......................: PHP %.2f", total);
 
         // Payment time
-        System.out.print("\n\n\t\t Payment.....................: ₱ ");
+        System.out.print("\n\n\t\t Payment.....................: PHP ");
         double payment = scan.nextDouble();
         scan.nextLine(); // Clear newline buffer
         if(payment < total){
@@ -144,7 +144,7 @@ public class ShopOperator {
 
         System.out.println("\n\t\t\t Payment Successful!");
         double change = payment - total;
-        System.out.printf("\n\t\t Change.......................: ₱ %.2f", change);
+        System.out.printf("\n\t\t Change.......................: PHP %.2f", change);
         System.out.println("\n\n\t\t --- Thanks for Shopping @ Cart2Go! --- \n");
         System.out.println("--------------------------------------------------------------------------");
         return true;
