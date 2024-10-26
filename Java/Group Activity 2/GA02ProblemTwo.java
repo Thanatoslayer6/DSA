@@ -122,7 +122,7 @@ public class GA02ProblemTwo {
                 clearScreen();
             } else if (userInput == 5) { // Exit
             	clearScreen();
-                displayOptions(true, "Thanks for Shoppin", new String[]{"%-35s Goodbye."});
+                displayOptions(true, "Thanks for Shopping", new String[]{"%-35s Goodbye."});
                 break;
             }
         }
