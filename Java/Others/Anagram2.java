@@ -1,49 +1,38 @@
 import java.util.Scanner;
 
-class Anagram2 {
-    public static void main(String[] args) { 
-        // Scanner scan = new Scanner(System.in); 
-        // System.out.print("Enter a string: ");
-        // String s = scan.nextLine();
-        
-        // anagram(s, 0); // from 0 hanggang sa length nung string - 1 kunyari "ABC", 0 -> 2 (3 iterations)
-                       // ung index 0, "ABC" -> "A"
-                      
-    }
+public class Anagram2 {
+	public static void main(String args[]) {
+		Scanner scan = new Scanner(System.in);
+		System.out.print("Enter a word: ");
+		String word = scan.next();
+		anagram(word);
+	}
 
-    
+	static void anagram(String word) {
+		char[] wordArr = word.toCharArray();
+		helper(wordArr, 0);
+	}
+	
+	static void helper(char[] arr, int pos) {
+		if (pos == arr.length) {
+			System.out.println(String.valueOf(arr));
+			return;
+		}
+		// First turn the word into a Character array
+		for (int i = pos; i < arr.length; i++) {
 
+			// Swap the chars, with index i and index pos
+			char temp = arr[i]; // 01 this is 0
+			arr[i] = arr[pos]; // 11
+			arr[pos] = temp; // 10
 
-    public static int swapIntegerInArray(int indexOfFirstNum, int indexOfSecondNum) {
-       print "Hello" 
-       return 1000;
-       print "World"
-    }
+			helper(arr, pos + 1);
 
-
-
-
-
-
-
-    public static String swap(String input, int index1, int index2) {
-        char[] inputArray = input.toCharArray(); // {'A', 'B', 'C'};  
-        char temporary = inputArray[index1]; // 'A' 
-        inputArray[index1] = inputArray[index2]; // "ABC" -> "CBC"
-        inputArray[index2] = temporary; // "CBC" -> "CBA"
-        return String.valueOf(inputArray);
-    }
-
-    public static void anagram(String input, int index) {
-        if (index == input.length() - 1) { // Base case titigil kapag nasa panghuli na
-            System.out.println(input);
-            return;
-        }
-        
-        // Tatawag ng ilang beses depende sa string length
-        for (int i = index; i < input.length(); i++) {
-            anagram(swap(input, index, i), index + 1); // 0 -> 1
-        } 
-    }
-
+			// Swap back to its original state, because we modified the array
+			// This is basically backtracking, because if we don't the positions of the characters would be messed up
+			// I mean this step is completely optional however, if you draw the tree it won't be the way it is...
+			arr[pos] = arr[i];
+			arr[i] = temp;
+		}
+	}
 }
