@@ -41,10 +41,10 @@ public class TwoSum {
 			int complement = target - nums[i];
 			// First check if the element exists in the HashMap, if it does it means we've solved it...
 			if (map.containsKey(complement)) {
-				return new int[]{i, map.get(complement) };
+				return new int[]{map.get(complement), i};
 			}
-			// Else just add the complement as key...
-			map.put(complement, i);
+			// Else just add the current number as key, with the value being its index
+			map.put(nums[i], i);
 		}
 		return new int[]{};
 	}
